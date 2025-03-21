@@ -7,11 +7,11 @@ public sealed class KillMinikubeMountsAction(
     {
         Logger.WriteRuler("[purple]Handling minikube mounts[/]");
 
-        await Task.Run(HandleMinikubeMounts);
+        await HandleMinikubeMounts();
 
         return true;
     }
-    private async void HandleMinikubeMounts()
+    private async Task HandleMinikubeMounts()
     {
         if (!CurrentState.KubeContext.Equals(MinikubeLiterals.Path, StringComparison.OrdinalIgnoreCase))
         {

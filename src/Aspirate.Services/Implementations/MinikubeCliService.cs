@@ -88,6 +88,13 @@ public class MinikubeCliService(IShellExecutionService shellExecutionService, IA
             {
                 var process = processService.GetProcessById(processId);
 
+                if (process == null)
+                {
+                    logger.MarkupLine($"[red]Could not get process with Id: {processId} Please verify if it actually exists, and kill it manually.[/]");
+                    killedAll = false;
+                    continue;
+                }
+
                 var result = await processService.KillProcess(processId);
                 if (!result)
                 {

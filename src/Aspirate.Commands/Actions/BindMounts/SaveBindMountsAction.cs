@@ -5,7 +5,7 @@ public sealed class SaveBindMountsAction(
 {
     public override Task<bool> ExecuteAsync()
     {
-        Logger.WriteRuler("[purple]Handling minikube mounts[/]");
+        Logger.WriteRuler("[purple]Saving minikube mounts to state[/]");
 
         if (CurrentState.DisableMinikubeMountAction.Equals(true))
         {

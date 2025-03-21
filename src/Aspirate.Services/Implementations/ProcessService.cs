@@ -6,16 +6,36 @@ using System.Runtime.Versioning;
 namespace Aspirate.Services.Implementations;
 public class ProcessService(IAnsiConsole logger) : IProcessService
 {
-    public ProcessWrapper StartProcess(ProcessStartInfo startInfo)
+    public ProcessWrapper? StartProcess(ProcessStartInfo startInfo)
     {
-        var process = Process.Start(startInfo) ?? throw new InvalidOperationException("Failed to start process.");
-        return new ProcessWrapper(process.Id, process.MainModule?.FileName ?? "Unknown");
+        try
+        {
+            var process = Process.Start(startInfo);
+
+            if (process == null)
+            {
+                return null;
+            }
+
+            return new ProcessWrapper(process.Id, process.MainModule?.FileName ?? "Unknown");
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
-    public ProcessWrapper GetProcessById(int processId)
+    public ProcessWrapper? GetProcessById(int processId)
     {
-        var process = Process.GetProcessById(processId) ?? throw new InvalidOperationException("Could not get process");
-        return new ProcessWrapper(process.Id, process.MainModule?.FileName ?? "Unknown");
+        try
+        {
+            var process = Process.GetProcessById(processId);
+            return new ProcessWrapper(process.Id, process.MainModule?.FileName ?? "Unknown");
+        }
+        catch (ArgumentException)
+        {
+            return null;
+        }
     }
 
     public async Task<bool> KillProcess(int processId)
@@ -56,8 +76,9 @@ public class ProcessService(IAnsiConsole logger) : IProcessService
         bool killedAll = true;
 
         using (var searcher = new ManagementObjectSearcher("SELECT ProcessId FROM Win32_Process WHERE ParentProcessId = " + parentId))
+        using (var collection = searcher.Get())
         {
-            foreach (var obj in searcher.Get())
+            foreach (var obj in collection)
             {
                 try
                 {

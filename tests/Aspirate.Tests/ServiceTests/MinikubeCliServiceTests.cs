@@ -320,5 +320,5 @@ public class FakeProcessService(bool testChocolatey) : IProcessService
 
         return process?.FileName ?? "Unknown";
     }
-    public ProcessWrapper GetProcessById(int processId) => _fakeProcesses.First(p => p.Id == processId);
+    public ProcessWrapper? GetProcessById(int processId) => _fakeProcesses.First(p => p.Id == processId);
 }

@@ -62,9 +62,6 @@ public static class KubernetesDeploymentDataExtensions
 
     public static void SetVolumesAndVolumeMounts(KubernetesDeploymentData data, V1Deployment deployment)
     {
-        deployment.Spec.Template.Spec.Volumes = [];
-        deployment.Spec.Template.Spec.Containers.FirstOrDefault().VolumeMounts = [];
-
         var volumes = new List<V1Volume>();
         var volumeMounts = new List<V1VolumeMount>();
 
@@ -92,8 +89,36 @@ public static class KubernetesDeploymentDataExtensions
             }
         }
 
-        deployment.Spec.Template.Spec.Containers.FirstOrDefault().VolumeMounts = volumeMounts;
-        deployment.Spec.Template.Spec.Volumes = volumes;
+        if (deployment.Spec.Template.Spec.Containers.First().VolumeMounts != null)
+        {
+            foreach (var volumeMount in volumeMounts)
+            {
+                deployment.Spec.Template.Spec.Containers.First().VolumeMounts.Add(volumeMount);
+            }
+        }
+        else
+        {
+            if (volumeMounts.Count > 0)
+            {
+                deployment.Spec.Template.Spec.Containers.First().VolumeMounts = volumeMounts;
+            }
+        }
+
+
+        if (deployment.Spec.Template.Spec.Volumes != null)
+        {
+            foreach (var volume in volumes)
+            {
+                deployment.Spec.Template.Spec.Volumes.Add(volume);
+            }
+        }
+        else
+        {
+            if (volumes.Count > 0)
+            {
+                deployment.Spec.Template.Spec.Volumes = volumes;
+            }
+        }
     }
 
     public static V1Container ToKubernetesContainer(this KubernetesDeploymentData data, bool useConfigMap = true, bool useSecrets = true)
