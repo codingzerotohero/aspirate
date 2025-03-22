@@ -24,6 +24,20 @@ public class LoadAspireManifestAction(
             {
                 Logger.MarkupLine("[green]Processing components that were specified in CLI[/]");
 
+                var componentsInManifest = new HashSet<string>([.. CurrentState.LoadedAspireManifestResources.Keys]);
+                var cliComponentsNotInManifest = new HashSet<string>(CurrentState.CliSpecifiedComponents.Where(c => !componentsInManifest.Contains(c)));
+
+                if (cliComponentsNotInManifest.Any())
+                {
+                    Logger.MarkupLine($"[yellow]Some components specified in CLI were not found in the Aspire manifest. Will not process these:[/]");
+                    foreach (string cliComponent in cliComponentsNotInManifest)
+                    {
+                        Logger.MarkupLine($"[yellow]{cliComponent}[/]");
+                    }
+
+                    CurrentState.CliSpecifiedComponents.RemoveAll(cliComponentsNotInManifest.Contains);
+                }
+
                 CurrentState.AspireComponentsToProcess = CurrentState.LoadedAspireManifestResources.Keys
                     .Where(CurrentState.CliSpecifiedComponents.Contains).ToList();
 
