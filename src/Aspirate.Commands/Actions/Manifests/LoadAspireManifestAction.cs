@@ -20,12 +20,12 @@ public class LoadAspireManifestAction(
     {
         if (CurrentState.NonInteractive)
         {
-            if (CurrentState.HasSelectedResourcesInCli)
+            if (CurrentState.HasSelectedComponentsInCli)
             {
                 Logger.MarkupLine("[green]Processing components that were specified in CLI[/]");
 
                 CurrentState.AspireComponentsToProcess = CurrentState.LoadedAspireManifestResources.Keys
-                    .Where(CurrentState.CliSpecifiedResources.Contains).ToList();
+                    .Where(CurrentState.CliSpecifiedComponents.Contains).ToList();
 
                 Logger.MarkupLine("[green]Components that will be processed:[/]");
                 foreach (string component in CurrentState.AspireComponentsToProcess)

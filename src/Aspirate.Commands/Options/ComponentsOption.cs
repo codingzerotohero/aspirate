@@ -10,7 +10,7 @@ public sealed class ComponentsOption : BaseOption<List<string>?>
 
     private ComponentsOption() : base(_aliases, "ASPIRATE_COMPONENTS", null)
     {
-        Name = nameof(IComponentsOptions.CliSpecifiedResources);
+        Name = nameof(IComponentsOptions.CliSpecifiedComponents);
         Description = "Specify which components build or generate, non interactively";
         Arity = ArgumentArity.ZeroOrMore;
         IsRequired = false;

@@ -35,5 +35,5 @@ public sealed class GenerateOptions : BaseCommandOptions,
     public bool? WithPrivateRegistry { get; set; }
     public bool? IncludeDashboard { get; set; }
     public bool? ReplaceSecrets { get; set; }
-    public List<string>? CliSpecifiedResources { get; set; }
+    public List<string>? CliSpecifiedComponents { get; set; }
 }

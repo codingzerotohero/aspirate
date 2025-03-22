@@ -213,8 +213,8 @@ public class AspirateState :
     public bool? ReplaceSecrets { get; set; }
 
     [JsonIgnore]
-    public List<string>? CliSpecifiedResources { get; set; }
+    public List<string>? CliSpecifiedComponents { get; set; }
 
     [JsonIgnore]
-    public bool HasSelectedResourcesInCli => CliSpecifiedResources is { Count: > 0 };
+    public bool HasSelectedComponentsInCli => CliSpecifiedComponents is { Count: > 0 };
 }
