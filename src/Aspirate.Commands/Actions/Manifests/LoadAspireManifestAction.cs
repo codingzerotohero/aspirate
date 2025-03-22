@@ -20,9 +20,26 @@ public class LoadAspireManifestAction(
     {
         if (CurrentState.NonInteractive)
         {
-            Logger.MarkupLine("[blue]Non-Interactive Mode: Processing all components in the loaded file.[/]");
-            CurrentState.AspireComponentsToProcess = CurrentState.LoadedAspireManifestResources.Keys.ToList();
-            return;
+            if (CurrentState.HasSelectedResourcesInCli)
+            {
+                Logger.MarkupLine("[green]Processing components that were specified in CLI[/]");
+
+                CurrentState.AspireComponentsToProcess = CurrentState.LoadedAspireManifestResources.Keys
+                    .Where(CurrentState.CliSpecifiedResources.Contains).ToList();
+
+                Logger.MarkupLine("[green]Components that will be processed:[/]");
+                foreach (string component in CurrentState.AspireComponentsToProcess)
+                {
+                    Logger.MarkupLine($"[blue]{component}[/]");
+                }
+                return;
+            }
+            else
+            {
+                Logger.MarkupLine("[blue]Non-Interactive Mode: No components were specified. Processing all components in the loaded file.[/]");
+                CurrentState.AspireComponentsToProcess = CurrentState.LoadedAspireManifestResources.Keys.ToList();
+                return;
+            }
         }
 
         if (CurrentState.ProcessAllComponents == true)

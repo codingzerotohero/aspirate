@@ -211,4 +211,10 @@ public class AspirateState :
 
     [JsonIgnore]
     public bool? ReplaceSecrets { get; set; }
+
+    [JsonIgnore]
+    public List<string>? CliSpecifiedResources { get; set; }
+
+    [JsonIgnore]
+    public bool HasSelectedResourcesInCli => CliSpecifiedResources is { Count: > 0 };
 }

@@ -8,7 +8,7 @@ public sealed class GenerateOptions : BaseCommandOptions,
     IPrivateRegistryCredentialsOptions,
     IDashboardOptions,
     ISecretState,
-    ISpecifiedResourcesOptions
+    IComponentsOptions
 {
     public string? ProjectPath { get; set; }
     public string? AspireManifest { get; set; }
@@ -35,5 +35,5 @@ public sealed class GenerateOptions : BaseCommandOptions,
     public bool? WithPrivateRegistry { get; set; }
     public bool? IncludeDashboard { get; set; }
     public bool? ReplaceSecrets { get; set; }
-    public List<string>? SpecifiedResources { get; set; }
+    public List<string>? CliSpecifiedResources { get; set; }
 }
