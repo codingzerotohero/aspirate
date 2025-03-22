@@ -6,7 +6,8 @@
     <AssemblyName>aspirate</AssemblyName>
     <PackAsTool>true</PackAsTool>
     <ToolName>aspirate</ToolName>
-    <Version>0.1.0-preview</Version>
+    <Version>0.2.0-test</Version>
+    <ToolCommandName>aspiratest</ToolCommandName>
   </PropertyGroup>
 
   <PropertyGroup>
